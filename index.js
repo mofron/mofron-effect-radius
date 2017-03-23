@@ -9,57 +9,58 @@
  */
 mofron.effect.Radius = class extends mofron.Effect {
     
+    constructor (prm) {
+        try {
+            super();
+            this.name('Radius');
+            
+            this.prmOpt(prm);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     value (val) {
         try {
             if (undefined === val) {
-                if (null === this.param) {
-                    return 50;
-                }
-                return this.param;
+                return (undefined === this.m_value) ? 50 : this.m_value;
             }
             
             if (('number' !== typeof val) || (0 > val)) {
                 throw new Error('invalid parameter');
             }
-            this.param = val;
+            this.m_value = val;
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    initEffect (flg, eff) {
+    enable () {
         try {
-            if (true === flg) {
-                eff.target.style('webkit-border-radius', '0px');
-                eff.target.style('-moz-border-radius'  , '0px');
-                eff.target.style('border-radius'       , '0px');
-            } else {
-                eff.target.style('webkit-border-radius', this.value() + 'px');
-                eff.target.style('-moz-border-radius'  , this.value() + 'px');
-                eff.target.style('border-radius'       , this.value() + 'px');
-            }
+            this.target().style({
+                'webkit-border-radius' : this.value() + 'px',
+                '-moz-border-radius'   : this.value() + 'px',
+                'border-radius'        : this.value() + 'px'
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    
-    effectConts (flg, eff) {
+    disable () {
         try {
-            if (true === flg) {
-                eff.target.style('webkit-border-radius', this.value() + 'px');
-                eff.target.style('-moz-border-radius'  , this.value() + 'px');
-                eff.target.style('border-radius'       , this.value() + 'px');
-            } else {
-                eff.target.style('webkit-border-radius', '0px');
-                eff.target.style('-moz-border-radius'  , '0px');
-                eff.target.style('border-radius'       , '0px');
-            }
+            this.target().style({
+                'webkit-border-radius' : '0px',
+                '-moz-border-radius'   : '0px',
+                'border-radius'        : '0px'
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
 }
+module.exports = mofron.effect.Radius;
