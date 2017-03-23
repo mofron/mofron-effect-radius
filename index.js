@@ -14,7 +14,7 @@ mofron.effect.Radius = class extends mofron.Effect {
             super();
             this.name('Radius');
             
-            this.prmOpt(prm);
+            this.prmOpt({value : prm});
         } catch (e) {
             console.error(e.stack);
             throw e;
