@@ -13,8 +13,9 @@ mofron.effect.Radius = class extends mofron.Effect {
         try {
             super();
             this.name('Radius');
-            
-            this.prmOpt({value : prm});
+            this.prmOpt(
+                ('number' !== typeof prm) ? prm : {value : prm}
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;
