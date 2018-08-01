@@ -13,13 +13,8 @@ mofron.effect.Radius = class extends mofron.Effect {
         try {
             super();
             this.name('Radius');
-            
-	    if ('number' === typeof po) {
-                this.value(po);
-            } else {
-                this.setPrmOpt(po);
-                this.execOption();
-            }
+            this.prmMap('value');
+            this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -42,9 +37,9 @@ mofron.effect.Radius = class extends mofron.Effect {
         }
     }
     
-    enable () {
+    enable (tgt) {
         try {
-            this.target().style({
+            tgt.style({
                 'webkit-border-radius' : this.value() + 'px',
                 '-moz-border-radius'   : this.value() + 'px',
                 'border-radius'        : this.value() + 'px'
@@ -57,7 +52,7 @@ mofron.effect.Radius = class extends mofron.Effect {
     
     disable () {
         try {
-            this.target().style({
+            tgt.style({
                 'webkit-border-radius' : '0px',
                 '-moz-border-radius'   : '0px',
                 'border-radius'        : '0px'
