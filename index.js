@@ -1,13 +1,14 @@
 /**
  * @file mofron-effect-radius/index.js
+ * @brief radius effect for mofron
  * @author simpart
  */
-
+const mf = require('mofron');
 /**
  * @class Radius
- * @brief radius style effect class
+ * @brief radius effect for mofron
  */
-mofron.effect.Radius = class extends mofron.Effect {
+mf.effect.Radius = class extends mf.Effect {
     
     constructor (po) {
         try {
@@ -24,13 +25,14 @@ mofron.effect.Radius = class extends mofron.Effect {
     value (val) {
         try {
             if (undefined === val) {
-                return (undefined === this.m_value) ? 50 : this.m_value;
+                /* getter */
+                if (undefined === this.m_value) {
+                    this.value('0.5rem');
+                }
+                return this.m_value;
             }
-            
-            if (('number' !== typeof val) || (0 > val)) {
-                throw new Error('invalid parameter');
-            }
-            this.m_value = val;
+            /* setter */
+            this.m_value = mf.func.getSizeObj(val);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -40,9 +42,9 @@ mofron.effect.Radius = class extends mofron.Effect {
     enable (tgt) {
         try {
             tgt.style({
-                'webkit-border-radius' : this.value() + 'px',
-                '-moz-border-radius'   : this.value() + 'px',
-                'border-radius'        : this.value() + 'px'
+                'webkit-border-radius' : this.value().value(),
+                '-moz-border-radius'   : this.value().value(),
+                'border-radius'        : this.value().value()
             });
         } catch (e) {
             console.error(e.stack);
@@ -53,9 +55,9 @@ mofron.effect.Radius = class extends mofron.Effect {
     disable () {
         try {
             tgt.style({
-                'webkit-border-radius' : '0px',
-                '-moz-border-radius'   : '0px',
-                'border-radius'        : '0px'
+                'webkit-border-radius' : null,
+                '-moz-border-radius'   : null,
+                'border-radius'        : null
             });
         } catch (e) {
             console.error(e.stack);
@@ -64,3 +66,4 @@ mofron.effect.Radius = class extends mofron.Effect {
     }
 }
 module.exports = mofron.effect.Radius;
+/* end of file */
