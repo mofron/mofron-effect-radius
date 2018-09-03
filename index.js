@@ -42,9 +42,9 @@ mf.effect.Radius = class extends mf.Effect {
     enable (tgt) {
         try {
             tgt.style({
-                'webkit-border-radius' : this.value().value(),
-                '-moz-border-radius'   : this.value().value(),
-                'border-radius'        : this.value().value()
+                'webkit-border-radius' : this.value().toString(),
+                '-moz-border-radius'   : this.value().toString(),
+                'border-radius'        : this.value().toString()
             });
         } catch (e) {
             console.error(e.stack);
