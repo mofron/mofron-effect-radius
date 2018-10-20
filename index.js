@@ -4,17 +4,20 @@
  * @author simpart
  */
 const mf = require('mofron');
-/**
- * @class Radius
- * @brief radius effect for mofron
- */
+
 mf.effect.Radius = class extends mf.Effect {
-    
+    /**
+     * initialize radius effect
+     *
+     * @param p1 (object) effect option
+     * @param p1 (string) radius size (css size value)
+     */
     constructor (po) {
         try {
             super();
             this.name('Radius');
             this.prmMap('value');
+            this.value('0.5rem');
             this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
@@ -22,23 +25,31 @@ mf.effect.Radius = class extends mf.Effect {
         }
     }
     
-    value (val) {
+    /**
+     * setter/getter radius size
+     *
+     * @param p1 (string) radius size (css size value)
+     * @param p1 (undefined) call as getter
+     * @return (string) radius size
+     */
+    value (prm) {
         try {
-            if (undefined === val) {
-                /* getter */
-                if (undefined === this.m_value) {
-                    this.value('0.5rem');
-                }
-                return this.m_value;
-            }
-            /* setter */
-            this.m_value = mf.func.getSizeObj(val);
+            return this.member(
+                'value',
+                'Size',
+                (undefined === prm) ? prm : mf.func.getSize(prm)
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
+    /**
+     * enable border radius
+     *
+     * @note private method
+     */
     enable (tgt) {
         try {
             tgt.style({
@@ -52,6 +63,11 @@ mf.effect.Radius = class extends mf.Effect {
         }
     }
     
+    /**
+     * disable border radius
+     *
+     * @note private method
+     */
     disable () {
         try {
             tgt.style({
