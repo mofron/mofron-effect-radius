@@ -36,8 +36,8 @@ mf.effect.Radius = class extends mf.Effect {
         try {
             return this.member(
                 'value',
-                'Size',
-                (undefined === prm) ? prm : mf.func.getSize(prm)
+                'string',
+                (undefined === prm) ? prm : mf.func.getSize(prm).toString()
             );
         } catch (e) {
             console.error(e.stack);
@@ -53,9 +53,9 @@ mf.effect.Radius = class extends mf.Effect {
     enable (tgt) {
         try {
             tgt.style({
-                'webkit-border-radius' : this.value().toString(),
-                '-moz-border-radius'   : this.value().toString(),
-                'border-radius'        : this.value().toString()
+                'webkit-border-radius' : this.value(),
+                '-moz-border-radius'   : this.value(),
+                'border-radius'        : this.value()
             });
         } catch (e) {
             console.error(e.stack);
