@@ -68,7 +68,7 @@ mf.effect.Radius = class extends mf.Effect {
      *
      * @note private method
      */
-    disable () {
+    disable (tgt) {
         try {
             tgt.style({
                 'webkit-border-radius' : null,
