@@ -45,6 +45,21 @@ mf.effect.Radius = class extends mf.Effect {
         }
     }
     
+    type (prm) {
+        try {
+            if (undefined !== prm) {
+                if ( ('top'    !== prm) &&
+                     ('bottom' !== prm) ) {
+                    throw new Error('invalid parameter');
+                }
+            }
+            return this.arrayMember('type', 'string', prm);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     /**
      * enable border radius
      *
@@ -52,11 +67,25 @@ mf.effect.Radius = class extends mf.Effect {
      */
     enable (tgt) {
         try {
-            tgt.style({
-                'webkit-border-radius' : this.value(),
-                '-moz-border-radius'   : this.value(),
-                'border-radius'        : this.value()
-            });
+            let type = this.type();
+            if (0 === type.length) { 
+                tgt.style({
+                    'webkit-border-radius' : this.value(),
+                    '-moz-border-radius'   : this.value(),
+                    'border-radius'        : this.value()
+                });
+            } else {
+                let set_sty = {};
+                for (let tidx in type) {
+                    set_sty['webkit-border-' + type[tidx] + '-left-radius']  = this.value();
+                    set_sty['webkit-border-' + type[tidx] + '-right-radius'] = this.value();
+                    set_sty['-moz-border-'   + type[tidx] + '-left-radius']  = this.value();
+                    set_sty['-moz-border-'   + type[tidx] + '-right-radius'] = this.value();
+                    set_sty['border-'        + type[tidx] + '-left-radius']  = this.value();
+                    set_sty['border-'        + type[tidx] + '-right-radius'] = this.value();
+                }
+                tgt.style(set_sty);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -70,11 +99,13 @@ mf.effect.Radius = class extends mf.Effect {
      */
     disable (tgt) {
         try {
-            tgt.style({
-                'webkit-border-radius' : null,
-                '-moz-border-radius'   : null,
-                'border-radius'        : null
-            });
+            if (0 === this.type().length) {
+                tgt.style({
+                    'webkit-border-radius' : null,
+                    '-moz-border-radius'   : null,
+                    'border-radius'        : null
+                });
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
