@@ -17,7 +17,6 @@ mf.effect.Radius = class extends mf.Effect {
             super();
             this.name('Radius');
             this.prmMap('value');
-            this.value('0.5rem');
             this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
@@ -37,7 +36,8 @@ mf.effect.Radius = class extends mf.Effect {
             return this.member(
                 'value',
                 'string',
-                (undefined === prm) ? prm : mf.func.getSize(prm).toString()
+                (undefined === prm) ? prm : mf.func.getSize(prm).toString(),
+                '0.5rem'
             );
         } catch (e) {
             console.error(e.stack);
@@ -60,51 +60,27 @@ mf.effect.Radius = class extends mf.Effect {
         }
     }
     
-    /**
-     * enable border radius
-     *
-     * @note private method
-     */
-    enable (tgt) {
+    contents (cmp) {
         try {
             let type = this.type();
-            if (0 === type.length) { 
-                tgt.style({
-                    'webkit-border-radius' : this.value(),
-                    '-moz-border-radius'   : this.value(),
-                    'border-radius'        : this.value()
+            let val  = this.value();
+            if (0 === type.length) {
+                cmp.style({
+                    'webkit-border-radius' : val,
+                    '-moz-border-radius'   : val,
+                    'border-radius'        : val
                 });
             } else {
                 let set_sty = {};
                 for (let tidx in type) {
-                    set_sty['webkit-border-' + type[tidx] + '-left-radius']  = this.value();
-                    set_sty['webkit-border-' + type[tidx] + '-right-radius'] = this.value();
-                    set_sty['-moz-border-'   + type[tidx] + '-left-radius']  = this.value();
-                    set_sty['-moz-border-'   + type[tidx] + '-right-radius'] = this.value();
-                    set_sty['border-'        + type[tidx] + '-left-radius']  = this.value();
-                    set_sty['border-'        + type[tidx] + '-right-radius'] = this.value();
+                    set_sty['webkit-border-' + type[tidx] + '-left-radius']  = val;
+                    set_sty['webkit-border-' + type[tidx] + '-right-radius'] = val;
+                    set_sty['-moz-border-'   + type[tidx] + '-left-radius']  = val;
+                    set_sty['-moz-border-'   + type[tidx] + '-right-radius'] = val;
+                    set_sty['border-'        + type[tidx] + '-left-radius']  = val;
+                    set_sty['border-'        + type[tidx] + '-right-radius'] = val;
                 }
-                tgt.style(set_sty);
-            }
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * disable border radius
-     *
-     * @note private method
-     */
-    disable (tgt) {
-        try {
-            if (0 === this.type().length) {
-                tgt.style({
-                    'webkit-border-radius' : null,
-                    '-moz-border-radius'   : null,
-                    'border-radius'        : null
-                });
+                cmp.style(set_sty);
             }
         } catch (e) {
             console.error(e.stack);
