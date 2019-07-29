@@ -9,14 +9,16 @@ mf.effect.Radius = class extends mf.Effect {
     /**
      * initialize radius effect
      *
-     * @param p1 (object) effect option
-     * @param p1 (string) radius size (css size value)
+     * @param (object) effect option
+     * @param (string) radius size (css size value)
      */
     constructor (po) {
         try {
             super();
             this.name('Radius');
             this.prmMap('value');
+            
+            this.value("0.5rem");
             this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
@@ -27,34 +29,18 @@ mf.effect.Radius = class extends mf.Effect {
     /**
      * setter/getter radius size
      *
-     * @param p1 (string) radius size (css size value)
-     * @param p1 (undefined) call as getter
+     * @param (string) radius size (css size value)
      * @return (string) radius size
      */
     value (prm) {
-        try {
-            return this.member(
-                'value',
-                'string',
-                (undefined === prm) ? prm : mf.func.getSize(prm).toString(),
-                '0.5rem'
-            );
-        } catch (e) {
+        try { return this.member("value", "size", prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
     type (prm) {
-        try {
-            if (undefined !== prm) {
-                if ( ('top'    !== prm) &&
-                     ('bottom' !== prm) ) {
-                    throw new Error('invalid parameter');
-                }
-            }
-            return this.arrayMember('type', 'string', prm);
-        } catch (e) {
+        try { return this.arrayMember('type', 'string', prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -63,7 +49,7 @@ mf.effect.Radius = class extends mf.Effect {
     contents (cmp) {
         try {
             let type = this.type();
-            let val  = this.value();
+            let val  = this.value().toString();
             if (0 === type.length) {
                 cmp.style({
                     'webkit-border-radius' : val,
@@ -73,12 +59,12 @@ mf.effect.Radius = class extends mf.Effect {
             } else {
                 let set_sty = {};
                 for (let tidx in type) {
-                    set_sty['webkit-border-' + type[tidx] + '-left-radius']  = val;
-                    set_sty['webkit-border-' + type[tidx] + '-right-radius'] = val;
-                    set_sty['-moz-border-'   + type[tidx] + '-left-radius']  = val;
-                    set_sty['-moz-border-'   + type[tidx] + '-right-radius'] = val;
-                    set_sty['border-'        + type[tidx] + '-left-radius']  = val;
-                    set_sty['border-'        + type[tidx] + '-right-radius'] = val;
+                    set_sty['webkit-border-' + type[tidx] + '-radius']  = val;
+                    set_sty['webkit-border-' + type[tidx] + '-radius'] = val;
+                    set_sty['-moz-border-'   + type[tidx] + '-radius']  = val;
+                    set_sty['-moz-border-'   + type[tidx] + '-radius'] = val;
+                    set_sty['border-'        + type[tidx] + '-radius']  = val;
+                    set_sty['border-'        + type[tidx] + '-radius'] = val;
                 }
                 cmp.style(set_sty);
             }

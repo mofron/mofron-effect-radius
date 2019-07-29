@@ -1,6 +1,6 @@
 {
   "name": "mofron-effect-radius",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simpart/mofron-effect-radius.git"
+    "url": "git+https://github.com/mofron/mofron-effect-radius.git"
   },
   "author": "simparts",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simpart/mofron-effect-radius/issues"
+    "url": "https://github.com/mofron/mofron-effect-radius/issues"
   },
-  "homepage": "https://github.com/simpart/mofron-effect-radius#readme"
+  "homepage": "https://github.com/mofron/mofron-effect-radius#readme"
 }
