@@ -1,25 +1,33 @@
 /**
  * @file mofron-effect-radius/index.js
  * @brief radius effect for mofron
- * @author simpart
+ *        this effect makes the components of outside rounded style
+ * @license MIT
  */
-const mf = require('mofron');
 
-mf.effect.Radius = class extends mf.Effect {
+module.exports = class extends mofron.class.Effect {
     /**
      * initialize radius effect
      *
-     * @param (object) effect option
-     * @param (string) radius size (css size value)
+     * @param (mixed) value parameter
+     *                key-value: effect config
+     * @short value
+     * @type private
      */
-    constructor (po) {
+    constructor (p1) {
         try {
             super();
             this.name('Radius');
-            this.prmMap('value');
-            
-            this.value("0.5rem");
-            this.prmOpt(po);
+            this.shortForm('value');
+            /* init config */
+            this.confmng().add("value", { type: "size", init: "0.5rem" });
+	    this.confmng().add(
+	        "position", { list: true, select: ["top-left","top-right","bottom-left","bottom-right"] }
+	    );
+	    /* set config */
+	    if (0 < arguments.length) {
+                this.config(p1);
+	    }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -27,46 +35,57 @@ mf.effect.Radius = class extends mf.Effect {
     }
     
     /**
-     * setter/getter radius size
+     * radius size
      *
-     * @param (string) radius size (css size value)
-     * @return (string) radius size
+     * @param (string (size)) radius size
+     * @return (string (size)) radius size
+     * @type parameter
      */
     value (prm) {
-        try { return this.member("value", "size", prm); } catch (e) {
+        try {
+	    return this.confmng("value", prm);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    type (prm) {
-        try { return this.arrayMember('type', 'string', prm); } catch (e) {
+    /**
+     * radius target position
+     * each position will be targeted if nothing is set 
+     * 
+     * @param (mixed) array: position list
+     *                string: target position ("top-left","top-right","bottom-left","bottom-right")
+     * @return (array) position list
+     * @type parameter
+     */
+    position (prm) {
+        try {
+	    return this.confmng('position', prm);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
+    /**
+     * effect contents
+     * 
+     * @param (component) target component
+     * @type private
+     */
     contents (cmp) {
         try {
-            let type = this.type();
+            let pos = this.position();
             let val  = this.value().toString();
-            if (0 === type.length) {
-                cmp.style({
-                    'webkit-border-radius' : val,
-                    '-moz-border-radius'   : val,
-                    'border-radius'        : val
-                });
+            if (0 === pos.length) {
+                cmp.style({ 'border-radius' : val}, { bpref:true });
             } else {
                 let set_sty = {};
-                for (let tidx in type) {
-                    set_sty['webkit-border-' + type[tidx] + '-radius']  = val;
-                    set_sty['webkit-border-' + type[tidx] + '-radius'] = val;
-                    set_sty['-moz-border-'   + type[tidx] + '-radius']  = val;
-                    set_sty['-moz-border-'   + type[tidx] + '-radius'] = val;
-                    set_sty['border-'        + type[tidx] + '-radius']  = val;
-                    set_sty['border-'        + type[tidx] + '-radius'] = val;
+                for (let tidx in pos) {
+                    set_sty['border-' + pos[tidx] + '-radius'] = val;
                 }
-                cmp.style(set_sty);
+                cmp.style(set_sty, { bpref:true });
             }
         } catch (e) {
             console.error(e.stack);
@@ -74,5 +93,4 @@ mf.effect.Radius = class extends mf.Effect {
         }
     }
 }
-module.exports = mofron.effect.Radius;
 /* end of file */
