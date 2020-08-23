@@ -13,10 +13,10 @@ npm install mofron mofron-effect-radius
 
 # Sample
 ```html
-<require>
+<setting>
     <tag load="mofron-comp-button">Button</tag>
     <tag load="mofron-effect-radius">Radius</tag>
-</require>
+</setting>
 <Button effect=Radius("0.1rem")>Radius Effect<Button>
 ```
 

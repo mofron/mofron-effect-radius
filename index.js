@@ -17,13 +17,21 @@ module.exports = class extends mofron.class.Effect {
     constructor (p1) {
         try {
             super();
-            this.name('Radius');
+            this.modname('Radius');
             this.shortForm('value');
+            
             /* init config */
             this.confmng().add("value", { type: "size", init: "0.5rem" });
 	    this.confmng().add(
 	        "position", { list: true, select: ["top-left","top-right","bottom-left","bottom-right"] }
 	    );
+            
+            this.transition([
+                "border-radius", "border-top-left-radius",
+                "border-top-right-radius","border-bottom-left-radius",
+                "border-bottom-right-radius"
+            ]);
+            
 	    /* set config */
 	    if (0 < arguments.length) {
                 this.config(p1);
