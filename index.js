@@ -23,7 +23,8 @@ module.exports = class extends mofron.class.Effect {
             /* init config */
             this.confmng().add("value", { type: "size", init: "0.5rem" });
 	    this.confmng().add(
-	        "position", { list: true, select: ["top-left","top-right","bottom-left","bottom-right"] }
+	        "position",
+		{ type:'string', list: true, select: ["top-left","top-right","bottom-left","bottom-right"] }
 	    );
             
             this.transition([
